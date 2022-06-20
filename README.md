@@ -8,7 +8,7 @@ but please follow the instructions below to recreate the train/validation/test s
 
 ## Clone repository and setup environment
 
-    git clone https://github.com/anonymous8392/fire-event-detection-dataset.git
+    git clone https://github.com/anonymous7483/fire-event-detection-dataset.git
     cd fire-event-detection-dataset
     pip install -r requirements.txt
 
