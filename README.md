@@ -18,7 +18,7 @@ The data can be downloaded from the following Dropbox link:
 There should now be a folder named "wav" with the audio source files in the working directory.
 
 ## Prepare data
-This will create a HDF5 file with the prepared dataset, by default using the path "./wav" for the audio source files. This can take a while.
+This will create a HDF5 file with the prepared dataset, by default using the path "./wav" for the audio source files. This can take a while. We opted for releasing the data with full sampling rate, and as a result this step takes some more time. Most of the time is spent on resampling the audio files to 32,000 Hz.
 
     python prepare_data.py
 
