@@ -1,5 +1,5 @@
 # Fire event detection dataset
-This repository contains the instructions on how to download and prepare the fire event detection dataset. There are also instructions on how to train and evaluate a convolutional neural network on this dataset as a baseline for further research on this topic.
+This repository contains the instructions on how to download and prepare the fire event detection dataset, and how to to train and evaluate a convolutional neural network on this dataset as a baseline for further research on this topic.
 
 The data can be downloaded from here:
 - https://www.dropbox.com/s/7tkeh7wwuofe9zl/data.zip
