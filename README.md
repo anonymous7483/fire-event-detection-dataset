@@ -21,7 +21,7 @@ The data can be downloaded from the following Dropbox link:
 There should now be a folder named "wav" with the audio source files in the working directory.
 
 ## Prepare data
-This will create a HDF5 file with the prepared dataset, by default using the path "./wav" for the audio source files.
+This will create a HDF5 file with the prepared dataset, by default using the path "./wav" for the audio source files. This can take a while.
 
     python prepare_data.py
 
