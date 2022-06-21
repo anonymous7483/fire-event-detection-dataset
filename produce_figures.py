@@ -1,4 +1,5 @@
 import os
+import sys
 import numpy as np
 import torch
 
@@ -36,16 +37,17 @@ mel_bins = 64
 fmin = 50
 fmax = 14000
 classes_num = 1
+device = torch.device(sys.argv[1])
 
 experiment_path = 'experiments/baseline'
 model = models.Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size, mel_bins=mel_bins,
         fmin=fmin, fmax=fmax, classes_num=classes_num)
-model = model.cuda()
-model.load_state_dict(torch.load(os.path.join(experiment_path, "best_model.ckpt")))
+model = model.to(device=device)
+model.load_state_dict(torch.load(os.path.join(experiment_path, "best_model.ckpt"), map_location=device))
 model.eval()
 
-valid_loss, valid_acc, ys_true_valid, ys_pred_valid = baseline.evaluate(model, valid_loader, loss_function)
-test_loss, test_acc, ys_true_test, ys_pred_test = baseline.evaluate(model, test_loader, loss_function)
+valid_loss, valid_acc, ys_true_valid, ys_pred_valid = baseline.evaluate(model, valid_loader, loss_function, device)
+test_loss, test_acc, ys_true_test, ys_pred_test = baseline.evaluate(model, test_loader, loss_function, device)
 print("Accuracy: ", valid_acc)
 print("Accuracy: ", test_acc)
 
