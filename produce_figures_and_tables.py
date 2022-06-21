@@ -133,7 +133,7 @@ recall_2 = recall_score(true, pred)
 ##############################################################################
 
 print("--------------------------------")
-print("Metric      thr={:.2f}    thr={:.2f}".format(thr, adjusted_thr))
+print("Metric      thr={:.2f}    thr={:.2f}".format(0.5, adjusted_thr))
 print("--------------------------------")
 print("Accuracy    {:.2f}%       {:.2f}%".format(accuracy_1*100, accuracy_2*100))
 print("Precision   {:.2f}%       {:.2f}%".format(precision_1*100, precision_2*100))
