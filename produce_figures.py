@@ -1,8 +1,8 @@
-
-
+import os
 import numpy as np
 import torch
 
+from sklearn import metrics
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import f1_score
@@ -20,6 +20,7 @@ import baseline
 dataset_name = "spruce_oak_pmma_pur_chipboard"
 sample_rate = 32000
 hdf5_path = "dataset_{}_sr_{}.hdf5".format(dataset_name, sample_rate)
+augment = False
 
 valid_dataset = FireEventDataset(hdf5_path, indice_key='valid_indices', augment=augment)
 valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=1, shuffle=False, num_workers=8)
@@ -36,6 +37,7 @@ fmin = 50
 fmax = 14000
 classes_num = 1
 
+experiment_path = 'experiments/baseline'
 model = models.Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size, mel_bins=mel_bins,
         fmin=fmin, fmax=fmax, classes_num=classes_num)
 model = model.cuda()
@@ -70,12 +72,8 @@ ax.set_xlabel("Predicted class")
 ax.set_title('Confusion Matrix')
 plt.savefig("confusion_matrix.pdf", bbox_inches='tight')
 
-precision, recall, fscore, support = precision_recall_fscore_support(true, pred)
+#precision, recall, fscore, support = precision_recall_fscore_support(true, pred)
 print("accuracy  : {:.4f}".format(np.mean(true == pred)))
-print("precision : ", precision)
-print("recall    : ", recall)
-print("fscore    : ", fscore)
-print("support   : ", support)
 print("f-score   : ", f1_score(true, pred))
 print("precision : ", precision_score(true, pred))
 print("recall    : ", recall_score(true, pred))
@@ -100,12 +98,7 @@ ax.set_xlabel("Predicted class")
 ax.set_title('Confusion Matrix')
 plt.savefig("confusion_matrix_adjusted.pdf", bbox_inches='tight')
 
-precision, recall, fscore, support = precision_recall_fscore_support(true, pred)
 print("accuracy: {:.4f}".format(np.mean(true == pred)))
-# print("precision: ", precision)
-# print("recall: ", recall)
-# print("fscore: ", fscore)
-print("support: ", support)
 print("f-score   : ", f1_score(true, pred))
 print("precision : ", precision_score(true, pred))
 print("recall    : ", recall_score(true, pred))
