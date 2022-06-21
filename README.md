@@ -22,7 +22,7 @@ This will download the exact datasplit and model weights used in the paper
 
 ## Produce figures and tables
 
-    python produce_figures_and_tables.py "cpu" # or "gpu" if available
+    python produce_figures_and_tables.py "cpu" # or "cuda" if available
     
 This will print table 5 in the console and save "figure_5_a.pdf", "figure_5_b.pdf", and "figure_6.pdf" to disk in the working directory.
     
@@ -46,9 +46,9 @@ This will create a HDF5 file with the prepared dataset, by default using the pat
 ## Train model
 This will train a model, by default the training output is stored in the folder: "experiments/baseline", with the configuration used to find the model presented in the paper.
 
-    python baseline.py "train_model" "gpu" # or "cpu" if available
+    python baseline.py "train_model" "cuda" # or "cpu" if available
 
 ## Evaluate model
 This will evaluate the trained model on the test dataset.
 
-    python baseline.py "evaluate_model" "gpu" # or "cpu" if available
+    python baseline.py "evaluate_model" "cuda" # or "cpu" if available
