@@ -21,17 +21,14 @@ import models
 
 np.random.seed(42)
 
-device = torch.device('cpu')
-#device = torch.device('cuda')
-
-def train(model, optimizer, loss_function, train_loader):
+def train(model, optimizer, loss_function, train_loader, device):
     model.train()
     
     running_loss = 0
     count = 0
     for (x, y) in tqdm.tqdm(train_loader):
-        x = x.to(device=device) #cuda()
-        y = y.type(torch.FloatTensor).to(device=device) #.cuda()
+        x = x.to(device=device)
+        y = y.type(torch.FloatTensor).to(device=device)
         
         optimizer.zero_grad()
         
@@ -45,7 +42,7 @@ def train(model, optimizer, loss_function, train_loader):
         count += 1
     return running_loss / count
 
-def evaluate(model, loader, loss_function):
+def evaluate(model, loader, loss_function, device):
     model.eval()
     
     count = 0
@@ -55,8 +52,8 @@ def evaluate(model, loader, loss_function):
     ys = []
     ys_pred = []
     for (x, y) in loader:
-        x = x.to(device=device) #.cuda()
-        y = y.type(torch.FloatTensor).to(device=device) #.cuda()
+        x = x.to(device=device)
+        y = y.type(torch.FloatTensor).to(device=device)
         
         y_pred = model(x)
         loss = loss_function(y_pred, y)
@@ -98,6 +95,7 @@ def main():
 
     # mode: ["train_model", "evaluate_model"]
     mode = sys.argv[1]
+    device = torch.device(sys.argv[2])
 
     experiment_name = 'baseline'
     experiment_path = os.path.join(experiment_dir, experiment_name)
@@ -114,7 +112,7 @@ def main():
         best_model = best_model.to(device=device) #.cuda()
 
         if pretrained:
-            load_checkpoint(model)
+            load_checkpoint(model, device=device)
 
         optimizer = torch.optim.Adam(params=model.parameters(), lr=learning_rate)
         loss_function = torch.nn.BCELoss()
@@ -133,8 +131,8 @@ def main():
         epoch = 0
         not_converged = True
         while not_converged:
-            train_loss = train(model, optimizer, loss_function, train_loader)
-            valid_loss, valid_acc, _, _ = evaluate(model, valid_loader, loss_function)
+            train_loss = train(model, optimizer, loss_function, train_loader, device)
+            valid_loss, valid_acc, _, _ = evaluate(model, valid_loader, loss_function, device)
             print("valid loss: {}, acc: {}".format(valid_loss, valid_acc))
             writer.add_scalar('loss/train', train_loss, epoch)
             writer.add_scalar('loss/valid', valid_loss, epoch)
@@ -153,13 +151,13 @@ def main():
 
         torch.save(model.state_dict(), os.path.join(experiment_path, "model_epochs_{}.ckpt".format(epoch)))
         torch.save(best_model.state_dict(), os.path.join(experiment_path, "best_model.ckpt"))
-        test_loss, test_acc, _, _ = evaluate(model, test_loader, loss_function)
+        test_loss, test_acc, _, _ = evaluate(model, test_loader, loss_function, device)
         print("test loss: {}, acc: {}".format(test_loss, test_acc))
     elif mode == "evaluate_model":
         print("Evaluate models...")
         model = models.Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size, mel_bins=mel_bins,
             fmin=fmin, fmax=fmax, classes_num=classes_num)
-        model = model.to(device=device) #.cuda()
+        model = model.to(device=device)
         
         best_model_path = os.path.join(experiment_path, "best_model.ckpt")
         print("model: ", experiment_path)
@@ -173,8 +171,8 @@ def main():
         test_loader  = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
         loss_function = torch.nn.BCELoss()
 
-        valid_loss, valid_acc, ys, ys_pred = evaluate(model, valid_loader, loss_function)
-        test_loss, test_acc, ys, ys_pred = evaluate(model, test_loader, loss_function)
+        valid_loss, valid_acc, ys, ys_pred = evaluate(model, valid_loader, loss_function, device)
+        test_loss, test_acc, ys, ys_pred = evaluate(model, test_loader, loss_function, device)
 
         print("Learning rate: {}, accuracy: {} (valid)".format(learning_rate, valid_acc))
         print("Learning rate: {}, accuracy: {} (test)".format(learning_rate, test_acc))
