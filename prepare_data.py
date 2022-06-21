@@ -62,7 +62,8 @@ def prepare_fire_data(source_dir, csv_file, segment_time, hdf5_path, sample_rate
         #print("file_name: ", filename)
         #print("start_time: ", start_time)
         #print("end_time:", end_time)
-        wave, sample_rate = librosa.load(os.path.join(source_dir, filename) + ".WAV", sr=sample_rate, mono=True)
+        wave, sample_rate = librosa.load(os.path.join(source_dir, filename) + ".WAV", sr=sample_rate, mono=True, res_type='kaiser_fast'
+                                        )
         start_second = parse_seconds(start_time)
         end_second = parse_seconds(end_time)
         #print("start_second: ", start_second)
@@ -115,7 +116,7 @@ def prepare_fire_data(source_dir, csv_file, segment_time, hdf5_path, sample_rate
             end_time = row[2]
             fire_event = int(row[3])
 
-            wave, sample_rate = librosa.load(os.path.join(source_dir, filename) + ".WAV", sr=sample_rate, mono=True)
+            wave, sample_rate = librosa.load(os.path.join(source_dir, filename) + ".WAV", sr=sample_rate, mono=True, res_type='kaiser_fast')
             start_second = parse_seconds(start_time)
             end_second = parse_seconds(end_time)
             wave_preprocesed = wave[start_second*sample_rate:end_second*sample_rate]
