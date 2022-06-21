@@ -27,8 +27,8 @@ This will download the exact datasplit and model weights used in the paper
 # Training model
 This does not guarantee the exact same results as in the paper, but they should be close.
 
-## Download and prepare data
-The data can be downloaded from the following Dropbox link:
+## Download and prepare data (optional)
+The training dataset can be reproduced by downloading the original sound recordings and extracting the segments using the provided script. If you downloaded the prepared dataset already this step can be skipped. The data can be downloaded from the following Dropbox link:
 
     wget https://www.dropbox.com/s/7tkeh7wwuofe9zl/data.zip
     unzip data.zip
