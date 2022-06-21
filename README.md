@@ -24,6 +24,8 @@ This will download the exact datasplit and model weights used in the paper
 
     python produce_figures_and_tables.py "cpu" # or "gpu" if available
     
+This will print table 5 in the console and save "figure_5_a.pdf", "figure_5_b.pdf", and "figure_6.pdf" to disk in the working directory.
+    
 # Training model
 This does not guarantee the exact same results as in the paper, but they should be close.
 
