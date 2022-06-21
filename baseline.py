@@ -60,10 +60,9 @@ def evaluate(model, loader, loss_function):
         running_loss += loss.item()
         
         y_pred = y_pred.detach().cpu().numpy()
-        y_pred = np.round(y_pred).astype(np.int32)
         y      = y.detach().cpu().numpy().astype(np.int32)
 
-        running_acc += np.mean(y==y_pred)
+        running_acc += np.mean(y==np.round(y_pred).astype(np.int32))
         
         count+=1
         
