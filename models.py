@@ -195,7 +195,7 @@ def create_folder(fd):
     if not os.path.exists(fd):
         os.makedirs(fd)
         
-def load_checkpoint(model, checkpoint_path=None):
+def load_checkpoint(model, checkpoint_path=None, device=torch.device('cpu')):
     if not checkpoint_path:
         checkpoint_path='./panns_data/Cnn14_mAP=0.431.pth'
     print('Checkpoint path: {}'.format(checkpoint_path))
@@ -205,6 +205,6 @@ def load_checkpoint(model, checkpoint_path=None):
         zenodo_path = 'https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth?download=1'
         os.system('wget -O "{}" "{}"'.format(checkpoint_path, zenodo_path))
 
-    checkpoint = torch.load(checkpoint_path, map_location='cuda')
+    checkpoint = torch.load(checkpoint_path, map_location=device)
     model.load_state_dict(checkpoint['model'], strict=False)
 
