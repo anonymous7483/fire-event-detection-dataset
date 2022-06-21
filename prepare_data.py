@@ -18,9 +18,9 @@ def split_into_segments(wave, sample_rate, segment_time):
     segment_size = sample_rate * segment_time
     wave_size = wave.shape[0]
 
-    print("wave: ", wave.shape)
-    print("wave_size: ", wave_size)
-    print("segment_size: ", segment_size)
+    #print("wave: ", wave.shape)
+    #print("wave_size: ", wave_size)
+    #print("segment_size: ", segment_size)
     nb_remove = wave_size % segment_size
     if nb_remove > 0:
         truncated_wave = wave[:-nb_remove]
@@ -31,8 +31,8 @@ def split_into_segments(wave, sample_rate, segment_time):
        raise ValueError("reapeated wave not even multiple of segment size")
 
     nb_segments = int(truncated_wave.shape[0]/segment_size)
-    print("truncated_wave: ", truncated_wave.shape)
-    print("nb_segments: ", nb_segments)
+    #print("truncated_wave: ", truncated_wave.shape)
+    #print("nb_segments: ", nb_segments)
     segments = np.split(truncated_wave, nb_segments, axis=0)
 
     return segments
@@ -40,7 +40,7 @@ def split_into_segments(wave, sample_rate, segment_time):
 def prepare_fire_data(source_dir, csv_file, segment_time, hdf5_path, sample_rate):    
     df = pd.read_csv(csv_file)
     
-    for index, row in tqdm.tqdm(df.iterrows()):
+    for index, row in tqdm.tqdm(df.iterrows(), total=len(df.index)):
         filename = row[0]
         start_time = row[1]
         end_time = row[2]
@@ -52,21 +52,21 @@ def prepare_fire_data(source_dir, csv_file, segment_time, hdf5_path, sample_rate
     # loop through data to compute statistics
     nb_rows = 0
     sum_mean = 0
-    for index, row in tqdm.tqdm(df.iterrows()):
+    for index, row in tqdm.tqdm(df.iterrows(), total=len(df.index)):
         filename = row[0]
         start_time = row[1]
         end_time = row[2]
         fire_event = bool(int(row[3]))
 
-        print("------------------------------------------")
-        print("file_name: ", filename)
-        print("start_time: ", start_time)
-        print("end_time:", end_time)
+        #print("------------------------------------------")
+        #print("file_name: ", filename)
+        #print("start_time: ", start_time)
+        #print("end_time:", end_time)
         wave, sample_rate = librosa.load(os.path.join(source_dir, filename) + ".WAV", sr=sample_rate, mono=True)
         start_second = parse_seconds(start_time)
         end_second = parse_seconds(end_time)
-        print("start_second: ", start_second)
-        print("end_second: ", end_second)
+        #print("start_second: ", start_second)
+        #print("end_second: ", end_second)
         wave_preprocesed = wave[start_second*sample_rate:end_second*sample_rate]
         segments = split_into_segments(wave_preprocesed, sample_rate=sample_rate, segment_time=segment_time)
 
@@ -109,7 +109,7 @@ def prepare_fire_data(source_dir, csv_file, segment_time, hdf5_path, sample_rate
         # SECOND PASS
         sum_variance = 0
         running_idx = 0
-        for index, row in tqdm.tqdm(df.iterrows()):
+        for index, row in tqdm.tqdm(df.iterrows(), total=len(df.index)):
             filename = row[0]
             start_time = row[1]
             end_time = row[2]
