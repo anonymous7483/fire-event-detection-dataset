@@ -48,8 +48,6 @@ model.eval()
 
 valid_loss, valid_acc, ys_true_valid, ys_pred_valid = baseline.evaluate(model, valid_loader, loss_function, device)
 test_loss, test_acc, ys_true_test, ys_pred_test = baseline.evaluate(model, test_loader, loss_function, device)
-print("Accuracy: ", valid_acc)
-print("Accuracy: ", test_acc)
 
 ##############################################################################
 # Figure 6
