@@ -21,14 +21,17 @@ import models
 
 np.random.seed(42)
 
+device = torch.device('cpu')
+#device = torch.device('cuda')
+
 def train(model, optimizer, loss_function, train_loader):
     model.train()
     
     running_loss = 0
     count = 0
     for (x, y) in tqdm.tqdm(train_loader):
-        x = x.cuda()
-        y = y.type(torch.FloatTensor).cuda()
+        x = x.to(device=device) #cuda()
+        y = y.type(torch.FloatTensor).to(device=device) #.cuda()
         
         optimizer.zero_grad()
         
@@ -52,8 +55,8 @@ def evaluate(model, loader, loss_function):
     ys = []
     ys_pred = []
     for (x, y) in loader:
-        x = x.cuda()
-        y = y.type(torch.FloatTensor).cuda()
+        x = x.to(device=device) #.cuda()
+        y = y.type(torch.FloatTensor).to(device=device) #.cuda()
         
         y_pred = model(x)
         loss = loss_function(y_pred, y)
@@ -104,11 +107,11 @@ def main():
 
         model = models.Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size, mel_bins=mel_bins,
                             fmin=fmin, fmax=fmax, classes_num=classes_num)
-        model = model.cuda()
+        model = model.to(device=device) #.cuda()
         # just a copy of the model
         best_model = models.Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size, mel_bins=mel_bins,
                 fmin=fmin, fmax=fmax, classes_num=classes_num)
-        best_model = best_model.cuda()
+        best_model = best_model.to(device=device) #.cuda()
 
         if pretrained:
             load_checkpoint(model)
@@ -156,7 +159,7 @@ def main():
         print("Evaluate models...")
         model = models.Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size, mel_bins=mel_bins,
             fmin=fmin, fmax=fmax, classes_num=classes_num)
-        model = model.cuda()
+        model = model.to(device=device) #.cuda()
         
         best_model_path = os.path.join(experiment_path, "best_model.ckpt")
         print("model: ", experiment_path)
