@@ -97,10 +97,10 @@ ax.set_xlabel("Predicted class")
 ax.set_title('Confusion Matrix')
 plt.savefig("figure_5_a.pdf", bbox_inches='tight')
 
-print("accuracy  : {:.4f}".format(np.mean(true == pred)))
-print("f-score   : ", f1_score(true, pred))
-print("precision : ", precision_score(true, pred))
-print("recall    : ", recall_score(true, pred))
+accuracy_1 = np.mean(true == pred)
+f1_1 = f1_score(true, pred)
+precision_1 = precision_score(true, pred)
+recall_1 = recall_score(true, pred)
 
 thr = adjusted_thr
 true = ys_true_test == 1
@@ -122,7 +122,21 @@ ax.set_xlabel("Predicted class")
 ax.set_title('Confusion Matrix')
 plt.savefig("figure_5_b.pdf", bbox_inches='tight')
 
-print("accuracy: {:.4f}".format(np.mean(true == pred)))
-print("f-score   : ", f1_score(true, pred))
-print("precision : ", precision_score(true, pred))
-print("recall    : ", recall_score(true, pred))
+
+accuracy_2 = np.mean(true == pred)
+f1_2 = f1_score(true, pred)
+precision_2 = precision_score(true, pred)
+recall_2 = recall_score(true, pred)
+
+##############################################################################
+# Table 5
+##############################################################################
+
+print("--------------------------------")
+print("Metric      thr={}    thr={}".format(thr, adjusted_thr))
+print("--------------------------------")
+print("Accuracy      {}%       {}%".format(accuracy_1, accuracy_2))
+print("Precision     {}%       {}%".format(precision_1, precision_2))
+print("Recall        {}%       {}%".format(recall_1, recall_2))
+print("F-score       {}%       {}%".format(f1_1, f1_2))
+print("--------------------------------")      
