@@ -49,7 +49,9 @@ test_loss, test_acc, ys_true_test, ys_pred_test = baseline.evaluate(model, test_
 print("Accuracy: ", valid_acc)
 print("Accuracy: ", test_acc)
 
+##############################################################################
 # Figure 6
+##############################################################################
 fpr, tpr, thresholds = metrics.roc_curve(ys_true_valid, ys_pred_valid)
 threshold_idx = int(np.sum(fpr == 0.0))-1
 
@@ -66,10 +68,12 @@ ax.plot(fpr[threshold_idx:], tpr[threshold_idx:], color='k', ls='solid')
 ax.set_xlabel('False Positive Rate')
 ax.set_ylabel('True Positive Rate')
 ax.set_title('ROC curve')
-plt.savefig("roc_curve_valid.pdf", bbox_inches='tight')
+plt.savefig("figure_6.pdf", bbox_inches='tight')
 adjusted_thr = thresholds[threshold_idx]
 
+##############################################################################
 # Figure 5
+##############################################################################
 
 thr = 0.5
 true = ys_true_test == 1
@@ -89,7 +93,7 @@ sns.heatmap(cm, ax=ax, annot=True, cmap='Greys')
 ax.set_ylabel("True class")
 ax.set_xlabel("Predicted class")
 ax.set_title('Confusion Matrix')
-plt.savefig("confusion_matrix.pdf", bbox_inches='tight')
+plt.savefig("5_a.pdf", bbox_inches='tight')
 
 print("accuracy  : {:.4f}".format(np.mean(true == pred)))
 print("f-score   : ", f1_score(true, pred))
@@ -114,7 +118,7 @@ sns.heatmap(cm, ax=ax, annot=True, cmap='Greys')
 ax.set_ylabel("True class")
 ax.set_xlabel("Predicted class")
 ax.set_title('Confusion Matrix')
-plt.savefig("confusion_matrix_adjusted.pdf", bbox_inches='tight')
+plt.savefig("5_b.pdf", bbox_inches='tight')
 
 print("accuracy: {:.4f}".format(np.mean(true == pred)))
 print("f-score   : ", f1_score(true, pred))
