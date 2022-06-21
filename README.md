@@ -19,11 +19,11 @@ This will download the exact datasplit and model weights used in the paper
 ## Evaluate model
 This will evaluate the trained model on the test dataset.
 
-    python baseline.py "evaluate_model"
+    python baseline.py "evaluate_model" "cpu" # or "gpu" if available
 
 ## Produce figures
 
-    python produce_figures.py
+    python produce_figures.py "cpu" # or "gpu" if available
     
 # Training model
 This does not guarantee the exact same results as in the paper, but they should be close.
@@ -45,5 +45,5 @@ This will create a HDF5 file with the prepared dataset, by default using the pat
 ## Train model
 This will train a model, by default the training output is stored in the folder: "experiments/baseline", with the configuration used to find the model presented in the paper.
 
-    python baseline.py "train_model"
+    python baseline.py "train_model" "cpu" # or "gpu" if available
 
